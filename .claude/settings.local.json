@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Read(//c/Users/viplo/AppData/Local/Temp/claude/c--Users-viplo-Downloads-vigilr-landing/e91d49c9-3e92-4048-a8d5-ed4f02591246/tasks/**)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:3000/opengraph-image\")",
+      "Bash(curl -s -o /tmp/og-test.png \"http://localhost:3000/opengraph-image\")",
+      "Read(//tmp/**)",
+      "Bash(gh auth *)",
+      "Bash(gh api *)"
+    ]
+  }
+}
