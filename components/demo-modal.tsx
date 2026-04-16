@@ -45,7 +45,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 // Formspree endpoint — replace XXXXXXXX with your form ID
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/XXXXXXXX"
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mbdqdwwk"
 
 export function DemoModal() {
   const [open, setOpen] = useState(false)

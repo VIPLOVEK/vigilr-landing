@@ -7,7 +7,7 @@ import { Shield, Activity, Zap, ChevronRight, ArrowRight, Loader2, CheckCircle2 
 import { toast } from "sonner"
 
 // Formspree endpoint for waitlist — replace YYYYYYYY with your waitlist form ID
-const WAITLIST_ENDPOINT = "https://formspree.io/f/YYYYYYYY"
+const WAITLIST_ENDPOINT = "https://formspree.io/f/myklkooa"
 
 const BLOCKED_DOMAINS = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "icloud.com", "aol.com"]
 
