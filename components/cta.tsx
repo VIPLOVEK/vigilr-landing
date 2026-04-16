@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Shield } from "lucide-react"
 import { openDemoModal } from "@/components/demo-modal"
+import { SIGNUP_URL } from "@/lib/app-url"
 
 export function Cta() {
   return (
@@ -25,13 +26,11 @@ export function Cta() {
               Import your vendors and see real-time risk scores in minutes.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button
-                size="lg"
-                className="h-12 gap-2 bg-accent text-accent-foreground hover:bg-accent/90"
-                onClick={() => openDemoModal()}
-              >
-                Start Free Trial
-                <ArrowRight className="h-4 w-4" />
+              <Button size="lg" className="h-12 gap-2 bg-accent text-accent-foreground hover:bg-accent/90" asChild>
+                <a href={SIGNUP_URL}>
+                  Start Free Trial
+                  <ArrowRight className="h-4 w-4" />
+                </a>
               </Button>
               <Button
                 size="lg"

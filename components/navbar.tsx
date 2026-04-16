@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Menu, X, Shield } from "lucide-react"
 import { useState, useEffect } from "react"
-import { openDemoModal } from "@/components/demo-modal"
+import { LOGIN_URL, SIGNUP_URL } from "@/lib/app-url"
 
 const NAV_SECTIONS = ["features", "workflow", "pricing", "api"]
 
@@ -62,15 +62,11 @@ export function Navbar() {
           <Link href="#" className="px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             Docs
           </Link>
-          <Link href="#" className="px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+          <a href={LOGIN_URL} className="px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             Sign in
-          </Link>
-          <Button
-            size="sm"
-            className="bg-accent text-accent-foreground hover:bg-accent/90"
-            onClick={() => openDemoModal()}
-          >
-            Get Started
+          </a>
+          <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90" asChild>
+            <a href={SIGNUP_URL}>Get Started</a>
           </Button>
         </div>
         <div className="flex items-center gap-3 lg:hidden">
@@ -126,14 +122,11 @@ export function Navbar() {
               Docs
             </Link>
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-4">
-              <Button variant="outline" className="w-full justify-center">
-                Sign in
+              <Button variant="outline" className="w-full justify-center" asChild>
+                <a href={LOGIN_URL}>Sign in</a>
               </Button>
-              <Button
-                className="w-full justify-center bg-accent text-accent-foreground hover:bg-accent/90"
-                onClick={() => { setMobileMenuOpen(false); openDemoModal() }}
-              >
-                Get Started
+              <Button className="w-full justify-center bg-accent text-accent-foreground hover:bg-accent/90" asChild>
+                <a href={SIGNUP_URL} onClick={() => setMobileMenuOpen(false)}>Get Started</a>
               </Button>
             </div>
           </div>

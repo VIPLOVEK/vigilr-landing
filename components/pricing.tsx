@@ -4,6 +4,7 @@ import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { openDemoModal } from "@/components/demo-modal"
+import { SIGNUP_URL } from "@/lib/app-url"
 
 const tiers = [
   {
@@ -117,18 +118,31 @@ export function Pricing() {
                   </li>
                 ))}
               </ul>
-              <Button
-                className={cn(
-                  "mt-8 w-full",
-                  tier.highlighted
-                    ? "bg-accent text-accent-foreground hover:bg-accent/90"
-                    : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                )}
-                variant={tier.highlighted ? "default" : "secondary"}
-                onClick={() => openDemoModal(tier.name)}
-              >
-                {tier.cta}
-              </Button>
+              {tier.id === "enterprise" ? (
+                <Button
+                  className={cn(
+                    "mt-8 w-full",
+                    "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  )}
+                  variant="secondary"
+                  onClick={() => openDemoModal(tier.name)}
+                >
+                  {tier.cta}
+                </Button>
+              ) : (
+                <Button
+                  className={cn(
+                    "mt-8 w-full",
+                    tier.highlighted
+                      ? "bg-accent text-accent-foreground hover:bg-accent/90"
+                      : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  )}
+                  variant={tier.highlighted ? "default" : "secondary"}
+                  asChild
+                >
+                  <a href={SIGNUP_URL}>{tier.cta}</a>
+                </Button>
+              )}
             </div>
           ))}
         </div>
