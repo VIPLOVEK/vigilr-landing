@@ -15,10 +15,13 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${SUPABASE_URL}/rest/v1/" -H "apikey: ${SUPABASE_ANON_KEY}" -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
-          echo "Supabase responded with HTTP $STATUS"
-          if [ "$STATUS" = "000" ]; then
-            echo "Could not reach Supabase — check SUPABASE_URL secret"
+          echo "Pinging ${SUPABASE_URL}..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${SUPABASE_URL}/auth/v1/health")
+          echo "Auth health responded with HTTP $STATUS"
+          STATUS2=$(curl -s -o /dev/null -w "%{http_code}" "${SUPABASE_URL}/rest/v1/" -H "apikey: ${SUPABASE_ANON_KEY}" -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+          echo "REST API responded with HTTP $STATUS2"
+          if [ "$STATUS" = "000" ] && [ "$STATUS2" = "000" ]; then
+            echo "Could not reach Supabase at all — check SUPABASE_URL secret"
             exit 1
           fi
-          echo "Ping successful, project is active."
+          echo "Ping complete. Project is active."
