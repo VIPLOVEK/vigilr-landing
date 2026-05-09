@@ -1,0 +1,43 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    - cron: "0 8 */2 * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Ping Supabase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query database to reset inactivity clock
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          echo "Pinging ${SUPABASE_URL}..."
+
+          # Make a real database query — health checks don't count as activity
+          RESPONSE=$(curl -s -w "\n%{http_code}" "${SUPABASE_URL}/rest/v1/keepalive?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+          STATUS=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -1)
+          echo "DB query responded with HTTP $STATUS: $BODY"
+
+          if [ "$STATUS" = "000" ]; then
+            echo "Could not reach Supabase — check SUPABASE_URL secret"
+            exit 1
+          fi
+
+          # 200 = query success, 404 = table doesn't exist yet (see setup below)
+          if [ "$STATUS" = "404" ] || echo "$BODY" | grep -q "relation.*does not exist"; then
+            echo "WARNING: 'keepalive' table not found. Run this SQL in Supabase SQL editor:"
+            echo "  CREATE TABLE public.keepalive (id int primary key default 1, ts timestamptz default now());"
+            echo "  INSERT INTO public.keepalive VALUES (1, now());"
+            echo "  ALTER TABLE public.keepalive ENABLE ROW LEVEL SECURITY;"
+            echo "  CREATE POLICY \"allow anon read\" ON public.keepalive FOR SELECT TO anon USING (true);"
+            exit 1
+          fi
+
+          echo "Database is active. Inactivity clock reset."
