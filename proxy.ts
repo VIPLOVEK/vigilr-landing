@@ -4,7 +4,7 @@ const COOKIE_NAME = "site-auth"
 const PASSWORD_PAGE = "/password"
 const AUTH_API = "/api/auth"
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Always allow the password page and auth API through
